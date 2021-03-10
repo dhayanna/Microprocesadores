@@ -162,6 +162,9 @@ int display = 0;
 int modo = VER_VOLTAJE;
 int bloqueo = 0;
 int cont = 0;
+int temporizador = 0;
+uint16_t sensor_read = 0;
+int aux;
 
 void loop() {
   
@@ -172,7 +175,13 @@ void loop() {
   }
   if (!digitalRead(PB)) bloqueo = 0;
 
-  uint16_t sensor_read = analogRead(ANALOG_INPUT);
+  temporizador = millis();
+  if(temporizador >= aux)
+  {
+    sensor_read = analogRead(ANALOG_INPUT);
+    aux += 1000;
+  }
+  
   float voltaje, resistencia;
 
   if (modo == VER_VOLTAJE)
